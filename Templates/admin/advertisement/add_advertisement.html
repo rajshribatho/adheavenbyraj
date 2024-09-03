@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AdHeaven</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .btn-sidebar {
+            background-color: #343a40;
+            color: white;
+            border: none;
+        }
+
+        .btn-sidebar:hover {
+            background-color: #495057;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2 class="text-center text-white">Admin</h2>
+        <a href="/view_advertisement">Dashboard</a>
+<a href="/view_advertisements">view advertisements</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="container dashboard-container" style="margin-left: 220px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="mb-4">Admin Dashboard</h1>
+                {% block adminbodycontent %}
+                <div class="card">
+                    <div class="card-header bg-dark text-white">Add Advertisement</div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% if error_msg %}
+                            <div class="form-text text-danger">
+                                {{ error_msg }}
+                            </div>
+                            {% endif %}
+                            <div class="form-group row">
+                                <label for="category" class="col-sm-2 col-form-label">Category</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="category" name="category" required>
+                                        <option selected disabled>Type You Want</option>
+                                        <option value="online">Online</option>
+                                        <option value="offline">Offline</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="marketingtype" class="col-sm-2 col-form-label">Marketing Type</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="marketingtype" name="marketingtype" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="price" class="col-sm-2 col-form-label">Price</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="image" class="col-sm-2 col-form-label">Image</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10 offset-sm-2">
+                                    <button type="submit" class="btn btn-sidebar w-100">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

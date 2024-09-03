@@ -1,0 +1,109 @@
+<!-- templates/admin/view_advertisements.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AdHeaven</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-container {
+            margin-top: 50px;
+            margin-left: 220px; /* Adjust to accommodate sidebar */
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .advertisement-image {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2 class="text-center text-white">Admin</h2>
+        <a href="/view_advertisements">Dashboard</a>
+        <a href="/add_advertising">Add Advertising</a>
+        <a href="/admin_order_history">Order History</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="container dashboard-container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="mb-4">Admin Dashboard</h1>
+                <div class="card">
+                    <div class="card-header bg-dark text-white">Manage Advertisements</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Marketing Type</th>
+                                        <th>Price</th>
+                                        <th>Image</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for advertisement in advertisements %}
+                                    <tr>
+                                        <td>{{ advertisement.category }}</td>
+                                        <td>{{ advertisement.marketingtype }}</td>
+                                        <td>{{ advertisement.price }}</td>
+                                        <td>
+                                            <img src="{{ advertisement.image.url }}" class="advertisement-image" alt="Ad Image">
+                                        </td>
+                                        <td>
+                                            <a href="/edit/{{ advertisement.id }}" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="/delete/{{ advertisement.id }}" class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

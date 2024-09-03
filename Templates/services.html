@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdHeaven - Services</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    />
+    <style>
+      /* Add custom styles here */
+      body {
+        background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .jumbotron {
+        background-color: #343a40;
+        color: white;
+        margin-bottom: 0;
+      }
+
+      .jumbotron h1,
+      .jumbotron p {
+        margin-bottom: 0;
+      }
+
+      .card-img-top {
+        object-fit: cover;
+        width: 100%;
+        height: 200px; /* Set a fixed height for the card image */
+      }
+
+      .card-body {
+        height: 200px; /* Set a fixed height for the card body */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .container {
+        flex: 1;
+      }
+
+      footer {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+        margin-top: auto;
+      }
+
+      footer .list-inline-item a {
+        color: white;
+      }
+
+      .btn-add-to-cart {
+        background-color: #343a40; /* Same color as the navbar */
+        color: white;
+        border: none;
+      }
+
+      .btn-add-to-cart:hover {
+        background-color: #23272b; /* Slightly darker shade for hover */
+        color: white;
+      }
+
+      .card {
+        margin-bottom: 30px; /* Add margin-bottom to each card for spacing */
+        height: 400px; /* Set a fixed height for the card */
+      }
+
+      .product-grid {
+        margin-top: 30px; /* Add margin-top to the product grid */
+      }
+
+      .navbar-nav .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-nav .nav-item .nav-link .bi {
+        margin-right: 5px;
+      }
+
+      .position-relative {
+        position: relative;
+      }
+
+      .badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%, -50%);
+        border-radius: 50%;
+        padding: 0.3em 0.6em;
+        background-color: red;
+        color: white;
+      }
+
+      .btn-outline-primary {
+        color: #343a40; /* Set text color */
+        border-color: #343a40; /* Set border color */
+      }
+
+      .btn-outline-primary:hover {
+        background-color: #343a40; /* Set background color on hover */
+        color: white; /* Set text color on hover */
+        border-color: #343a40; /* Set border color on hover */
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">AdHeaven</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/services">Services</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Category
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/category/online">Online</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="/category/offline">Offline</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="/services">All</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Price
+              </a>
+              <ul class="dropdown-menu">
+                <form class="m-2" action="/search/" method="POST">
+                  {% csrf_token %}
+                  <input
+                    class="form-control me-2 mb-2"
+                    type="number"
+                    placeholder="min"
+                    name="min"
+                  />
+                  <input
+                    class="form-control me-2 mb-2"
+                    type="number"
+                    placeholder="max"
+                    name="max"
+                  />
+                  <input class="btn btn-outline-primary w-100" type="submit" />
+                </form>
+              </ul>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <!-- Display messages -->
+      {% if messages %}
+      <div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+          <div
+            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+            role="alert"
+          >
+            {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <h2 class="text-center mb-4">Our Services</h2>
+      <div class="row gx-1 gy-2 product-grid">
+        {% for advertisement in advertisements %}
+        <div class="col-lg-3">
+          <div class="card" style="width: 16rem">
+            <img
+              src="{{advertisement.image.url}}"
+              class="card-img-top"
+              alt="Service Image"
+            />
+            <div class="card-body">
+              <h5 class="card-text">{{advertisement.marketingtype}}</h5>
+              <h5 class="card-title">&#8377; {{advertisement.price}}</h5>
+
+              <p class="card-title">Category: {{advertisement.category}}</p>
+              <a
+                href="/add_to_list/{{advertisement.id}}"
+                class="btn btn-primary btn-add-to-cart"
+                >Add to cart</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="/show_list" class="btn btn-primary btn-add-to-cart">Go to Cart</a>
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p>&copy; 2024 AdHeaven. All Rights Reserved.</p>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#" class="text-white">Facebook</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#" class="text-white">Twitter</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#" class="text-white">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@

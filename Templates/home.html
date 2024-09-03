@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdHeaven - Advertising Agency</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  <!-- remix icon -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Outfit", sans-serif;
+      text-decoration: none;
+      list-style: none;
+    }
+
+    :root {
+      --bg-color: #222327;
+      --text-color: #fff;
+      --main-color: #29fd53;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* background: transparent; */
+      background: #222327;
+      padding: 28px 12%;
+      transition: all 0.50s ease;
+      border-bottom: 2px solid grey;
+      /* margin-bottom: 50px; */
+
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      color: var(--main-color);
+      font-size: 28px;
+      margin-right: 3px;
+    }
+
+    .logo span {
+      color: var(--text-color);
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+
+    .navbar {
+      display: flex;
+
+    }
+
+    .navbar a {
+
+      color: var(--text-color);
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 5px 0;
+      margin: 0px 30px;
+      transition: all .50s ease;
+    }
+
+    .navbar a:hover {
+      color: var(--main-color);
+    }
+
+    .navbar a.active {
+      color: var(--main-color);
+    }
+
+    .main {
+      display: flex;
+      align-items: center;
+    }
+
+    .main a {
+
+      margin-right: 25px;
+      margin-left: 10px;
+      color: var(--text-color);
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all 0.50s ease;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+    }
+
+    .user i {
+      color: var(--main-color);
+      font-size: 28px;
+      margin-right: 7px;
+    }
+
+    .main a:hover {
+      color: var(--main-color);
+    }
+
+    #menu-icon {
+      font-size: 35px;
+      color: var(--text-color);
+      cursor: pointer;
+      z-index: 1001;
+      display: none;
+    }
+
+    /* responsive */
+    @media (max-width:1280px) {
+      header {
+        padding: 14px 2%;
+
+      }
+
+      .navbar a {
+        padding: 5px 0;
+        margin: 0px 20px;
+      }
+    }
+
+    @media (max-width:1090px) {
+      #menu-icon {
+        display: block;
+      }
+
+      .navbar {
+        position: absolute;
+        top: 100%;
+        right: -100%;
+        width: 250px;
+        height: 27vh;
+        background: var(--main-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        border-radius: 10px;
+        transition: all 0.50s ease;
+      }
+
+      .navbar a {
+        display: block;
+        margin: 12px 0;
+        padding: 0px 25px;
+        transition: all 0.50s ease;
+      }
+
+      .navbar a:hover {
+        color: var(--text-color);
+        transform: translateY(5px);
+        text-decoration: none;
+      }
+
+      .navbar a.active {
+        color: var(--text-color);
+      }
+
+      .navbar.open {
+        right: 2%;
+      }
+    }
+
+
+    .container {
+      margin-top: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">AdHeaven</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/services">Services</a>
+            </li>
+
+            {% if user.is_authenticated %}
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/logout"
+                >Logout</a
+              >
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav> -->
+  <!-- header Begin -->
+
+  <!-- header begin demo -->
+  <header>
+    <a href="" class="logo"><i class="fa-solid fa-house"></i><span>Logo</span></a>
+    <ul class="navbar">
+      <li><a href="" class="active">Home</a></li>
+      <li><a href="about/">About</a></li>
+      <li><a href="services/">Services</a></li>
+      <li><a href="">Contact</a></li>
+    </ul>
+    <div class="main">
+      <a href="login/" class="user"><i class="fa-solid fa-user"></i>Login</a>
+      <a href="register/">Register</a>
+      <div class="bx bx-menu" id="menu-icon"></div>
+    </div>
+  </header>
+  <!-- header end demo -->
+
+  <!-- 
+  <div>
+    <div class="container text-center">
+      <h1 class="display-4">Welcome to AdHeaven</h1>
+      <p class="lead">Where Creativity Meets Impact</p>
+    </div>
+  </div> -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Strategic Advertising Campaigns</h2>
+        <p>
+          At AdHeaven, we excel in creating customized advertising strategies
+          from concept to execution, meticulously tailored to your brand's
+          unique objectives. Our comprehensive process includes in-depth
+          market research to understand your target audience, creative
+          development for compelling messaging, strategic planning for maximum
+          impact, engaging content production, and thorough post-campaign
+          analysis. We ensure each campaign not only resonates with your
+          audience but also drives measurable business success. Trust us to
+          transform your brand’s vision into powerful, results-driven
+          advertising campaigns that stand out in today's competitive market.
+        </p>
+      </div>
+      <div class="col-md-4">
+        <h2>Creative Content Production</h2>
+        <p>
+          At AdHeaven, our award-winning team excels in bringing your brand
+          story to life through creative content production. We specialize in
+          crafting captivating visuals, compelling copy, and immersive
+          multimedia experiences that resonate with your audience. Our process
+          begins with understanding your brand's core message and goals. We
+          then develop visually stunning graphics, engaging videos, and
+          persuasive written content that captures attention and drives
+          engagement. Whether it's through social media, websites, or other
+          digital platforms, our content is designed to make a lasting impact.
+          Trust us to elevate your brand with high-quality, creative content
+          that tells your unique story in the most engaging way.
+        </p>
+      </div>
+      <div class="col-md-4">
+        <h2>Digital Marketing Solutions</h2>
+        <p>
+          At AdHeaven, our Digital Marketing Solutions ensure your brand stays
+          ahead in the ever-evolving digital landscape. We offer a
+          comprehensive range of services designed to boost your online
+          presence and drive engagement. Our social media management services
+          create and manage impactful campaigns that connect with your
+          audience across various platforms. With our SEO expertise, we
+          optimize your website to rank higher in search engine results,
+          driving organic traffic. Our SEM strategies use targeted advertising
+          to reach potential customers effectively. From content creation to
+          analytics, we provide everything you need to succeed in the digital
+          world, ensuring your brand stands out and thrives.
+        </p>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <footer class="bg-dark text-white text-center py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p>&copy; 2024 AdHeaven. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Facebook</a></li>
+            <li class="list-inline-item"><a href="#">Twitter</a></li>
+            <li class="list-inline-item"><a href="#">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/mian.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    let menu = document.querySelector('#menu-icon')
+    let navbar = document.querySelector('.navbar')
+    menu.onclick = () => {
+      menu.classList.toggle('bx-x')
+      navbar.classList.toggle('open')
+    }
+  </script>
+</body>
+
+</html>

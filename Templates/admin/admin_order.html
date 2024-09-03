@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Order History - AdHeaven</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .dashboard-container {
+        margin-top: 50px;
+        margin-left: 220px; /* Adjust to accommodate sidebar */
+      }
+
+      .card {
+        border-radius: 10px;
+      }
+
+      .sidebar {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+        background-color: #343a40;
+        padding-top: 20px;
+      }
+
+      .sidebar a {
+        color: white;
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+      }
+
+      .sidebar a:hover {
+        background-color: #495057;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <h2 class="text-center text-white">Admin</h2>
+      <a href="/view_advertisements">Dashboard</a>
+      <a href="/add_advertising">Add Advertising</a>
+      <a href="/admin_order_history">Order History</a>
+      <a href="/logout">Logout</a>
+    </div>
+
+    <div class="container dashboard-container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="mb-4">Admin Order History</h1>
+          <div class="card">
+            <div class="card-header bg-dark text-white">Order History</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>User</th>
+                      <th>Category</th>
+                      <th>Marketing Type</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Total Price</th>
+                      <th>Order Date</th>
+                      <th>Phone Number</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order_with_phone in orders_with_phone %}
+                    <tr>
+                      <td>{{ order_with_phone.order.id }}</td>
+                      <td>{{ order_with_phone.order.user.username }}</td>
+                      <td>
+                        {{ order_with_phone.order.advertisement.category }}
+                      </td>
+                      <td>
+                        {{ order_with_phone.order.advertisement.marketingtype }}
+                      </td>
+                      <td>{{ order_with_phone.order.advertisement.price }}</td>
+                      <td>{{ order_with_phone.order.quantity }}</td>
+                      <td>{{ order_with_phone.order.total_price }}</td>
+                      <td>{{ order_with_phone.order.order_date }}</td>
+                      <td>{{ order_with_phone.phone }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

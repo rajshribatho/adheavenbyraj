@@ -1,4 +1,3 @@
-<!-- templates/admin/view_advertisements.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +13,6 @@
 
         .dashboard-container {
             margin-top: 50px;
-            margin-left: 220px; /* Adjust to accommodate sidebar */
         }
 
         .card {
@@ -46,54 +44,80 @@
             max-width: 100px;
             max-height: 100px;
         }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .dashboard-container {
+                margin-left: 0;
+            }
+
+            .sidebar a {
+                text-align: center;
+            }
+
+            .toggle-sidebar-btn {
+                display: block;
+                margin: 10px;
+                color: #343a40;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Toggle button for sidebar on small screens -->
+    <button class="btn btn-outline-dark d-md-none toggle-sidebar-btn" onclick="toggleSidebar()">☰ Menu</button>
 
-    <div class="sidebar">
-        <h2 class="text-center text-white">Admin</h2>
-        <a href="/view_advertisements">Dashboard</a>
-        <a href="/add_advertising">Add Advertising</a>
-        <a href="/admin_order_history">Order History</a>
-        <a href="/logout">Logout</a>
-    </div>
+    <div class="d-md-flex">
+        <div class="sidebar d-none d-md-block" id="sidebar">
+            <h2 class="text-center text-white">Admin</h2>
+            <a href="/view_advertisements">Dashboard</a>
+            <a href="/add_advertising">Add Advertising</a>
+            <a href="/admin_order_history">Order History</a>
+            <a href="/logout">Logout</a>
+        </div>
 
-    <div class="container dashboard-container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="mb-4">Admin Dashboard</h1>
-                <div class="card">
-                    <div class="card-header bg-dark text-white">Manage Advertisements</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Category</th>
-                                        <th>Marketing Type</th>
-                                        <th>Price</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for advertisement in advertisements %}
-                                    <tr>
-                                        <td>{{ advertisement.category }}</td>
-                                        <td>{{ advertisement.marketingtype }}</td>
-                                        <td>{{ advertisement.price }}</td>
-                                        <td>
-                                            <img src="{{ advertisement.image.url }}" class="advertisement-image" alt="Ad Image">
-                                        </td>
-                                        <td>
-                                            <a href="/edit/{{ advertisement.id }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="/delete/{{ advertisement.id }}" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+        <div class="container dashboard-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="mb-4">Admin Dashboard</h1>
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">Manage Advertisements</div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Marketing Type</th>
+                                            <th>Price</th>
+                                            <th>Image</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for advertisement in advertisements %}
+                                        <tr>
+                                            <td>{{ advertisement.category }}</td>
+                                            <td>{{ advertisement.marketingtype }}</td>
+                                            <td>{{ advertisement.price }}</td>
+                                            <td>
+                                                <img src="{{ advertisement.image.url }}" class="advertisement-image" alt="Ad Image">
+                                            </td>
+                                            <td>
+                                                <a href="/edit/{{ advertisement.id }}" class="btn btn-primary btn-sm">Edit</a>
+                                                <a href="/delete/{{ advertisement.id }}" class="btn btn-danger btn-sm">Delete</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +128,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('d-none');
+        }
+    </script>
 </body>
 
 </html>

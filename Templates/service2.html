@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdHeaven - Services</title>
+
+  <!-- Bootstrap CSS and Icons -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    .navbar {
+      margin-bottom: 20px;
+    }
+
+    .card {
+      margin-bottom: 20px;
+      height: 400px;
+    }
+
+    .card-img-top {
+      object-fit: cover;
+      width: 100%;
+      height: 200px;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .add-to-cart-btn {
+      width: 80%;
+      margin-top: 10px;
+      font-size: 0.875rem;
+    }
+
+    .go-to-cart-btn {
+      width: 16rem;
+      background-color: #343a40;
+      color: white;
+      border: none;
+      margin: 20px auto;
+      display: block;
+    }
+
+    footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 0.5rem 0;
+      font-size: 0.875rem;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .btn-add-to-cart {
+      background-color: #343a40;
+      color: white;
+      border: none;
+    }
+
+    .btn-add-to-cart:hover {
+      background-color: #23272b;
+    }
+
+    .active-button {
+      background-color: #343a40;
+      color: white;
+    }
+
+    .no-services-message {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.25rem;
+      color: #dc3545;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">AdHeaven</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="/show_list"><i class="bi bi-cart"></i> Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="/order_history">Order History</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Logout</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="/show_list"><i class="bi bi-cart"></i> Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="/order_history">Order History</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container content">
+    <!-- Message Display Section -->
+    <div class="alert-container mt-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Filters and Search Section -->
+    <div class="row filters-row align-items-center">
+      <div class="col-md-6">
+        <div class="btn-group" role="group">
+          <a href="/category/online" class="btn btn-outline-primary" onclick="setActiveButton(this)">Online</a>
+          <a href="/category/offline" class="btn btn-outline-primary" onclick="setActiveButton(this)">Offline</a>
+          <a href="/services" class="btn btn-outline-primary" onclick="setActiveButton(this)">All</a>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <form class="form-inline justify-content-end" action="/price-range/" method="POST">
+          {% csrf_token %}
+          <input class="form-control mr-2" type="number" name="min" placeholder="Min Price" />
+          <input class="form-control mr-2" type="number" name="max" placeholder="Max Price" />
+          <button type="submit" class="btn btn-outline-primary">Apply</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Our Services Heading -->
+    <h2>Our Services</h2>
+
+    <!-- Search Form -->
+
+    
+    <form class="d-flex w-100" role="search" method="POST" action="{% url 'search_by_name' %}">
+      {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="product_name">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  
+    <!-- Product Grid -->
+    <div class="row gx-1 gy-2 product-grid">
+      {% if advertisements %}
+        {% for advertisement in advertisements %}
+          <div class="col-lg-3">
+            <div class="card" style="width: 16rem">
+              <img src="{{ advertisement.image.url }}" class="card-img-top" alt="Service Image" />
+              <div class="card-body">
+                <h5 class="card-text">{{ advertisement.marketingtype }}</h5>
+                <button class="btn btn-sm btn-add-to-cart add-to-cart-btn" onclick="window.location.href='/add_to_list/{{ advertisement.id }}'">Add to Cart</button>
+                <h5 class="card-title mt-3">&#8377; {{ advertisement.price }}</h5>
+                <p class="card-title">Category: {{ advertisement.category }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12 no-services-message">
+          No services available.
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Go to Cart Button -->
+    <div class="d-flex justify-content-center">
+      <button class="btn go-to-cart-btn" onclick="window.location.href='/show_list'">Go to Cart</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p>&copy; 2024 AdHeaven. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-white">Facebook</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Twitter</a></li>
+            <li class="list-inline-item"><a href="#" class="text-white">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function setActiveButton(button) {
+      const buttons = document.querySelectorAll('.btn-group .btn');
+      buttons.forEach(btn => btn.classList.remove('active-button'));
+      button.classList.add('active-button');
+    }
+  </script>
+</body>
+</html>

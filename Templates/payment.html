@@ -18,9 +18,10 @@
             "description": "Test Transaction",
             "order_id": "{{ order_id }}", // Pass the `id` obtained in the response of Step 1
             "handler": function (response){
-                alert(response.razorpay_payment_id);
-        window.location.replace("/products/"+"order/" + response.razorpay_payment_id +"/" + options.amount);
-               
+                // Replacing alert with silent redirection and logging
+                console.log("Payment ID:", response.razorpay_payment_id);
+                console.log("Order ID:", options.order_id);
+                window.location.replace("/products/order/" + response.razorpay_payment_id + "/" + options.amount);
             },
             "prefill": {
                 "name": "{{ request.user.username }}",
@@ -34,16 +35,21 @@
                 "color": "#3399cc"
             }
         };
+
         var rzp1 = new Razorpay(options);
+
         rzp1.on('payment.failed', function (response){
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+            // Replacing all alert calls with console logs to avoid pop-ups
+            console.log("Payment failed:");
+            console.log("Error code:", response.error.code);
+            console.log("Error description:", response.error.description);
+            console.log("Error source:", response.error.source);
+            console.log("Error step:", response.error.step);
+            console.log("Error reason:", response.error.reason);
+            console.log("Order ID:", response.error.metadata.order_id);
+            console.log("Payment ID:", response.error.metadata.payment_id);
         });
+
         document.getElementById('rzp-button1').onclick = function(e){
             rzp1.open();
             e.preventDefault();

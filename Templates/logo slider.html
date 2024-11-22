@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #819DFF;
+        }
+
+        @keyframes slide {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .logos-slide {
+            display: inline-block;
+            animation: 30s slide infinite linear;
+        }
+
+        .logos {
+            overflow: hidden;
+            padding: 60px 0;
+            background: #B0D8FF;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .logo-item {
+            display: inline-block;
+            text-align: center;
+            margin: 0 20px;
+        }
+
+        .logo-item img {
+            height: 50px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .logo-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .logos:before,
+        .logos:after {
+            position: absolute;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            content: "";
+            z-index: 2;
+        }
+
+        .logos:before {
+            left: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0), #B0D8FF);
+        }
+
+        .logos:after {
+            right: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), #B0D8FF);
+        }
+
+        .logos:hover .logos-slide {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="logos">
+                    <div class="logos-slide">
+                        <div class="logo-item">
+                            <img src="logo/1.png" alt="">
+                            <p>Description 1</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/Infosys.jpg" alt="">
+                            <p>Description 2</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/Infosys1.jpg" alt="">
+                            <p>Description 3</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/Logo.jpg" alt="">
+                            <p>Description 4</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/qseap_infotech_pvt_ltd_logo.jpeg.jpg" alt="">
+                            <p>Description 5</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/U72900MH2016PTC281392.jpg" alt="">
+                            <p>Description 6</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/3m.png" alt="">
+                            <p>Description 7</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/barstool-store.png" alt="">
+                            <p>Description 8</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/budweiser.png" alt="">
+                            <p>Description 9</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/buzzfeed.png" alt="">
+                            <p>Description 10</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/Infosys.jpg" alt="">
+                            <p>Description 11</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/forbes.png" alt="">
+                            <p>Description 12</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/menshealth.png" alt="">
+                            <p>Description 13</p>
+                        </div>
+                        <div class="logo-item">
+                            <img src="logo/mrbeast.png" alt="">
+                            <p>Description 14</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var copy = document.querySelector(".logos-slide").cloneNode(true);
+        document.querySelector('.logos').appendChild(copy);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

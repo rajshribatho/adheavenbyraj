@@ -64,10 +64,10 @@ WSGI_APPLICATION = 'hello.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+       'ENGINE': 'django.db.backends.mysql',
         'NAME': 'adheaven3',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD':'1234',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -8,11 +8,12 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 import razorpay
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import ListTable  
 from django.conf import settings
 from .models import OrderHistory
 from django.core.mail import send_mail
+from .models import HomeTable
 
 
 
@@ -76,7 +77,7 @@ def login_user(request):
             if user.is_superuser:
                return redirect("/view_advertisements")
             else:
-               return redirect("/")
+               return redirect("/services")
    return render(request,'login.html',context=data)
 
 
@@ -134,6 +135,44 @@ def delete_advertisement(request,advertisementid):
 
 
 
+def searchByName(request):
+    data = {}
+    if (request.method == "POST"):
+        product_name = request.POST.get("product_name")
+        print("searching for",product_name)
+        searched_products = HomeTable.objects.filter(marketingtype__icontains=product_name)
+        data['advertisements'] = searched_products
+        print("searching product is ",searched_products)
+        return render(request, 'services.html', context=data)
+    return redirect("/")
+
+def price_range(request):
+    print("in search")
+    data = {}
+
+    # Get min and max prices from POST request, or default to empty strings
+    min_price = request.POST.get('min', '').strip()
+    max_price = request.POST.get('max', '').strip()
+    
+    # Check if both fields are empty
+    if not min_price and not max_price:
+        data['message'] = "Please enter both minimum and maximum price values."
+    else:
+        # Convert to int if not empty; use default values if empty
+        min_price = int(min_price) if min_price else 0
+        max_price = int(max_price) if max_price else 1000000
+
+        # Build queries
+        q1 = Q(is_available=True)
+        q2 = Q(price__gte=min_price)
+        q3 = Q(price__lte=max_price)
+        
+        # Filter advertisements
+        searched_advertisements = filtered_advertisements.filter(q1 & q2 & q3)
+        data['advertisements'] = searched_advertisements
+
+    return render(request, 'services.html', context=data)
+
 
 
 def edit_advertisements(request,advertisementid):
@@ -188,12 +227,9 @@ def show_list(request):
     data = {}
     total_items = 0
     total_price = 0
-
     user_id = request.user.id
     advertisements_in_list = ListTable.objects.filter(user_id=user_id)
-
     advertisement_details = []
-
     for advertisement in advertisements_in_list:
         item_total = advertisement.fadvertisement_id.price * advertisement.quantity
         advertisement_details.append({
@@ -206,15 +242,10 @@ def show_list(request):
         })
         total_items += advertisement.quantity
         total_price += item_total
-
     data['advertisementlist'] = advertisement_details
     data['total_items'] = total_items
     data['total_price'] = total_price
     return render(request, 'cart.html', context=data)
-
-
-
-
 
 import razorpay
 
@@ -242,30 +273,20 @@ def order_history(request):
     else:
         return redirect('/login')
 
-
-
-
 import logging
-
 logger = logging.getLogger(__name__)
-
 def make_payment(request):
     total_price = 0
     advertisements_in_list = ListTable.objects.filter(user_id=request.user.id)
-
     for advertisement in advertisements_in_list:
         total_price += (advertisement.fadvertisement_id.price * advertisement.quantity)
-
     client = razorpay.Client(auth=("rzp_test_1l5VCpbFpucFG9", "W8W72M7tTmqcIkFK5C6Baru0"))
-
     data = {
         "amount": int(total_price * 100),  # Amount in paise
         "currency": "INR",
         "receipt": "order_rcptid_11"
     }
-
     payment = client.order.create(data=data)
-
     if request.method == 'POST':
         logger.info("Payment POST request received")
         try:
@@ -294,8 +315,6 @@ def make_payment(request):
 
 
 
-
-
 def filter_by_category(request,category_value):
    data={}
    q1 = Q(is_available=True)
@@ -307,15 +326,11 @@ def filter_by_category(request,category_value):
    return render(request,'services.html',context=data)
 
 
+
 def delete_list(request,fadvertisementid):
     list_item = ListTable.objects.get(id=fadvertisementid)
     list_item.delete()
     return redirect("/show_list")
-
-
-
-
-      
 
 def find_list_value(request):
    user=request.user.id
@@ -324,20 +339,9 @@ def find_list_value(request):
    return list_count
 
 
-def search_by_price_range(request):
-   print("in search")
-   data={}
-   min=request.POST['min']
-   max=request.POST['max']
-   q1 = Q(is_available=True)
-   q2 = Q(price__gte=min)
-   q3 = Q(price__lte=max)
-   searched_advertisements = filtered_advertisements.filter(q1 & q2 & q3)
-   data['advertisements']=searched_advertisements
-   return render(request,'services.html',context=data)
 
 
-# views.py
+
 
 def admin_order_history(request):
     if request.user.is_authenticated and request.user.is_superuser:
@@ -353,12 +357,6 @@ def admin_order_history(request):
         return render(request, 'admin/admin_order.html', {'orders_with_phone': orders_with_phone})
     else:
         return redirect('/login')
-
-
-
-
-
-
 
 import random
 def forgot_password(request):
@@ -400,10 +398,6 @@ def passotp(request,uname):
             otp = None 
             return redirect("/login")
     return render(request,"otppass.html",context=data)
-
-
-
-
 
 def home(request):
     return render(request,'home.html')
